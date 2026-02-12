@@ -1,71 +1,125 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For Fatiii ❤️</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  text-align:center;
+  background:linear-gradient(45deg,#ff9a9e,#fad0c4);
+  overflow:hidden;
+}
+
+.container{
+  margin-top:120px;
+}
+
+button{
+  padding:12px 25px;
+  font-size:18px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  margin:10px;
+}
+
+#yes{
+  background:#ff4d6d;
+  color:white;
+}
+
+#no{
+  background:#333;
+  color:white;
+}
+
+.bigHeart{
+  font-size:120px;
+  animation:beat 1s infinite;
+}
+
+@keyframes beat{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.2);}
+  100%{transform:scale(1);}
+}
+
+.glow{
+  font-size:40px;
+  color:#ff1493;
+  animation:glow 1.5s infinite alternate;
+}
+
+@keyframes glow{
+  from{text-shadow:0 0 10px #ff66a3;}
+  to{text-shadow:0 0 30px #ff0066;}
+}
+
+.effect{
+  font-size:40px;
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+  <h1>Do you love me? ❤️</h1>
+  <button id="yes">Yes 💖</button>
+  <button id="no">No 💔</button>
+  <div id="message"></div>
+</div>
+
 <script>
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const message = document.getElementById("message");
+const container = document.getElementById("container");
+
 let noCount = 0;
 
 const messages = [
-  { text: "Ntii ahsan whdaa fhyati💘", effect: "flowers" },
-  { text: "Kanmoooot 3liiik❤️", effect: "hearts" },
-  { text: "Ahlaaa ayaam hyatii hya wanaa m3aak💖", effect: "kisses" },
-  { text: "Mkntkhych rasii bla biik wlw tanya 💞", effect: "hugs" },
-  { text: "❤️Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️", effect: "biglove" }
+  { text: "🌸 Ntii ahsan whdaa fhyati💘", emoji:"🌸" },
+  { text: "❤️ Kanmoooot 3liiik❤️", emoji:"❤️" },
+  { text: "💋 Ahlaaa ayaam hyatii hya wanaa m3aak💖", emoji:"💋" },
+  { text: "🤗 Mkntkhych rasii bla biik wlw tanya 💞", emoji:"🤗" },
+  { text: "💞❤️ Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️", emoji:"💞" }
 ];
 
 noBtn.addEventListener("click", () => {
 
-  if (noCount < 5) {
-    showEffect(messages[noCount]);
+  if(noCount < 5){
+    message.innerHTML = `
+      <h2>${messages[noCount].text}</h2>
+      <div class="effect">${messages[noCount].emoji} ${messages[noCount].emoji} ${messages[noCount].emoji}</div>
+    `;
     noCount++;
   }
 
-  if (noCount === 5) {
-    setTimeout(() => {
-      showYesAnimation();
-    }, 2500);
+  if(noCount === 5){
+    setTimeout(showYesAnimation,2000);
   }
 });
 
-function showEffect(data) {
-  message.innerHTML = data.text;
-  message.classList.add("show");
+yesBtn.addEventListener("click", showYesAnimation);
 
-  const effectDiv = document.createElement("div");
-  effectDiv.className = "effect";
-  
-  if (data.effect === "flowers") {
-    effectDiv.innerHTML = "🌸 🌷 🌹 🌺 🌼";
-  }
-  if (data.effect === "hearts") {
-    effectDiv.innerHTML = "❤️ 💖 💘 💝 ❤️";
-  }
-  if (data.effect === "kisses") {
-    effectDiv.innerHTML = "😘 😘 💋 😘 💋";
-  }
-  if (data.effect === "hugs") {
-    effectDiv.innerHTML = "🤗 🤗 💞 🤗 🤗";
-  }
-  if (data.effect === "biglove") {
-    effectDiv.innerHTML = "💞 💋 🤗 ❤️ 💖";
-  }
-
-  message.appendChild(effectDiv);
-
-  setTimeout(() => {
-    message.classList.remove("show");
-  }, 2000);
-}
-
-function showYesAnimation() {
-  document.body.innerHTML = `
-    <div style="text-align:center; margin-top:100px; font-size:30px;">
-      <div style="font-size:100px;">❤️</div>
-      <div style="font-size:80px;">👩‍❤️‍👨💋</div>
-      <h1>Fatiii❤️</h1>
-    </div>
+function showYesAnimation(){
+  container.innerHTML = `
+    <div class="bigHeart">❤️</div>
+    <div style="font-size:80px;">👩‍❤️‍👨💋</div>
+    <h2>KANBGHIIIIIK 💞</h2>
+    <div class="glow">Fatiii❤️</div>
   `;
 }
 </script>
 
-</script>
-
 </body>
 </html>
+
+
 
