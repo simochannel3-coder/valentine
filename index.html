@@ -1,179 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>For You ❤️</title>
-
-<style>
-body{
-  margin:0;
-  overflow:hidden;
-  font-family:Arial, sans-serif;
-  background:linear-gradient(45deg,#ff9a9e,#fad0c4);
-  text-align:center;
-}
-
-.container{
-  margin-top:100px;
-}
-
-button{
-  padding:12px 25px;
-  font-size:18px;
-  border:none;
-  border-radius:20px;
-  cursor:pointer;
-  margin:10px;
-  transition:0.3s;
-}
-
-#yes{
-  background:#ff4d6d;
-  color:white;
-}
-
-#no{
-  background:#444;
-  color:white;
-  position:absolute;
-}
-
-.bigHeart{
-  font-size:120px;
-  animation:beat 1s infinite;
-}
-
-.couple{
-  font-size:80px;
-  margin-top:20px;
-  animation:floatCouple 3s infinite ease-in-out;
-}
-
-@keyframes beat{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.2);}
-  100%{transform:scale(1);}
-}
-
-@keyframes floatUp{
-  from{transform:translateY(0); opacity:1;}
-  to{transform:translateY(-300px); opacity:0;}
-}
-
-@keyframes floatCouple{
-  0%{transform:translateY(0);}
-  50%{transform:translateY(-20px);}
-  100%{transform:translateY(0);}
-}
-
-@keyframes glow{
-  from{text-shadow:0 0 10px #ff66a3,0 0 20px #ff3385;}
-  to{text-shadow:0 0 20px #ff1493,0 0 40px #ff0066;}
-}
-
-.float{
-  position:absolute;
-  font-size:30px;
-  animation:floatUp 3s linear forwards;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container" id="container">
-  <h1>Do you love me? ❤️</h1>
-  <button id="yes">Yes 💖</button>
-  <button id="no">No 💔</button>
-</div>
-
-<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-
 <script>
-const yesBtn=document.getElementById("yes");
-const noBtn=document.getElementById("no");
-const container=document.getElementById("container");
-const music=document.getElementById("music");
+let noCount = 0;
 
-let attempts=0;
-
-const messages=[
-"🌸 Ntii ahsan whdaa fhyati💘",
-"❤️ Kanmoooot 3liiik❤️",
-"💋 ahlaaa ayaam hyatii hya wanaa m3aak💖",
-"🤗 mkntkhych rasii bla biik wlw tanya 💞",
-"💞❤️ Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️"
+const messages = [
+  { text: "Ntii ahsan whdaa fhyati💘", effect: "flowers" },
+  { text: "Kanmoooot 3liiik❤️", effect: "hearts" },
+  { text: "Ahlaaa ayaam hyatii hya wanaa m3aak💖", effect: "kisses" },
+  { text: "Mkntkhych rasii bla biik wlw tanya 💞", effect: "hugs" },
+  { text: "❤️Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️", effect: "biglove" }
 ];
 
-const emojis=["🌸","❤️","💋","🤗","💞"];
+noBtn.addEventListener("click", () => {
 
-noBtn.addEventListener("click",()=>{
+  if (noCount < 5) {
+    showEffect(messages[noCount]);
+    noCount++;
+  }
 
-  if(attempts<5){
-
-    container.innerHTML="<h2>"+messages[attempts]+"</h2>";
-
-    for(let i=0;i<20;i++){
-      const el=document.createElement("div");
-      el.className="float";
-      el.innerText=emojis[attempts];
-      el.style.left=Math.random()*window.innerWidth+"px";
-      el.style.top=window.innerHeight+"px";
-      document.body.appendChild(el);
-      setTimeout(()=>el.remove(),3000);
-    }
-
-    attempts++;
-
-    setTimeout(()=>{
-      container.innerHTML='<h1>Do you love me? ❤️</h1><button id="yes">Yes 💖</button><button id="no">No 💔</button>';
-      location.reload();
-    },2500);
-
+  if (noCount === 5) {
+    setTimeout(() => {
+      showYesAnimation();
+    }, 2500);
   }
 });
 
-// YES BUTTON
-yesBtn.addEventListener("click",()=>{
+function showEffect(data) {
+  message.innerHTML = data.text;
+  message.classList.add("show");
 
-  music.play();
-  container.innerHTML="";
+  const effectDiv = document.createElement("div");
+  effectDiv.className = "effect";
+  
+  if (data.effect === "flowers") {
+    effectDiv.innerHTML = "🌸 🌷 🌹 🌺 🌼";
+  }
+  if (data.effect === "hearts") {
+    effectDiv.innerHTML = "❤️ 💖 💘 💝 ❤️";
+  }
+  if (data.effect === "kisses") {
+    effectDiv.innerHTML = "😘 😘 💋 😘 💋";
+  }
+  if (data.effect === "hugs") {
+    effectDiv.innerHTML = "🤗 🤗 💞 🤗 🤗";
+  }
+  if (data.effect === "biglove") {
+    effectDiv.innerHTML = "💞 💋 🤗 ❤️ 💖";
+  }
 
-  const heart=document.createElement("div");
-  heart.className="bigHeart";
-  heart.innerText="❤️";
-  container.appendChild(heart);
+  message.appendChild(effectDiv);
 
-  const couple=document.createElement("div");
-  couple.className="couple";
-  couple.innerText="👩‍❤️‍👨💋";
-  container.appendChild(couple);
+  setTimeout(() => {
+    message.classList.remove("show");
+  }, 2000);
+}
 
-  const text=document.createElement("h2");
-  text.innerText="KANBGHIIIIIK 💞";
-  text.style.color="#ff0066";
-  container.appendChild(text);
+function showYesAnimation() {
+  document.body.innerHTML = `
+    <div style="text-align:center; margin-top:100px; font-size:30px;">
+      <div style="font-size:100px;">❤️</div>
+      <div style="font-size:80px;">👩‍❤️‍👨💋</div>
+      <h1>Fatiii❤️</h1>
+    </div>
+  `;
+}
+</script>
 
-  const name=document.createElement("h1");
-  name.innerText="Fatiii❤️";
-  name.style.marginTop="20px";
-  name.style.fontSize="40px";
-  name.style.color="#ff1493";
-  name.style.animation="glow 1.5s infinite alternate";
-  container.appendChild(name);
-
-  setInterval(()=>{
-    const heartFloat=document.createElement("div");
-    heartFloat.className="float";
-    heartFloat.innerText="💖";
-    heartFloat.style.left=Math.random()*window.innerWidth+"px";
-    heartFloat.style.top=window.innerHeight+"px";
-    document.body.appendChild(heartFloat);
-    setTimeout(()=>heartFloat.remove(),3000);
-  },300);
-
-});
 </script>
 
 </body>
 </html>
+
