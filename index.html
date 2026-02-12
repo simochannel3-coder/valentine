@@ -1,175 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Valentine 💖</title>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+body{
+  margin:0;
+  overflow:hidden;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(45deg,#ff9a9e,#fad0c4);
+  text-align:center;
 }
 
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(135deg, #ffe4ec, #fceaff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.container{
+  margin-top:100px;
 }
 
-.container {
-  background: white;
-  padding: 40px;
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,.12);
-  text-align: center;
-  width: 90%;
-  max-width: 420px;
-  position: relative;
-  overflow: hidden;
+button{
+  padding:12px 25px;
+  font-size:18px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  margin:10px;
+  transition:0.3s;
 }
 
-h1 {
-  color: #ff6f91;
-  margin-bottom: 30px;
+#yes{
+  background:#ff4d6d;
+  color:white;
 }
 
-.buttons {
-  position: relative;
-  height: 80px;
+#no{
+  background:#444;
+  color:white;
+  position:absolute;
 }
 
-button {
-  padding: 14px 30px;
-  border: none;
-  border-radius: 999px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: .3s;
+.bigHeart{
+  font-size:120px;
+  animation:beat 1s infinite;
 }
 
-#yesBtn {
-  background: #6ed3a4;
-  color: white;
+.couple{
+  font-size:80px;
+  margin-top:20px;
+  animation:floatCouple 3s infinite ease-in-out;
 }
 
-#yesBtn:hover {
-  transform: scale(1.1);
+@keyframes beat{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.2);}
+  100%{transform:scale(1);}
 }
 
-#noBtn {
-  background: #ff6f91;
-  color: white;
-  position: absolute;
-  left: 140px;
+@keyframes floatUp{
+  from{transform:translateY(0); opacity:1;}
+  to{transform:translateY(-300px); opacity:0;}
 }
 
-.message {
-  margin-top: 30px;
-  font-size: 28px;
-  color: #ff6f91;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: .6s;
+@keyframes floatCouple{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0);}
 }
 
-.message.show {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes glow{
+  from{text-shadow:0 0 10px #ff66a3,0 0 20px #ff3385;}
+  to{text-shadow:0 0 20px #ff1493,0 0 40px #ff0066;}
 }
 
-/* Cat overlay */
-.cat {
-  position: fixed;
-  inset: 0;
-  background: rgba(255,228,236,.95);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  font-size: 28px;
-  opacity: 0;
-  pointer-events: none;
-  transition: .4s;
-}
-
-.cat.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.cat span {
-  font-size: 60px;
-  animation: shake .4s infinite;
-}
-
-@keyframes shake {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(5deg); }
-  50% { transform: rotate(-5deg); }
-  75% { transform: rotate(5deg); }
-  100% { transform: rotate(0deg); }
+.float{
+  position:absolute;
+  font-size:30px;
+  animation:floatUp 3s linear forwards;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Hbibaa dyli 💖<br>Will you be my Valentine?</h1>
-
-  <div class="buttons">
-    <button id="yesBtn">Yes 💚</button>
-    <button id="noBtn">No ❤️</button>
-  </div>
-
-  <div class="message" id="message">
-    Kanbghiiiiik 💕
-  </div>
+<div class="container" id="container">
+  <h1>Do you love me? ❤️</h1>
+  <button id="yes">Yes 💖</button>
+  <button id="no">No 💔</button>
 </div>
 
-<div class="cat" id="cat">
-  <span>😼</span>
-  <p>ya lghder bda 😼</p>
-  <small>(3awd jرب Yes 😏)</small>
-</div>
-
-<!-- Arabic Romantic Music -->
-<audio id="loveMusic">
-  <source src="https://cdn.pixabay.com/download/audio/2022/10/26/audio_4b7a9e6c74.mp3" type="audio/mpeg">
-</audio>
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
 <script>
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const message = document.getElementById("message");
-const cat = document.getElementById("cat");
-const music = document.getElementById("loveMusic");
-const container = document.querySelector(".container");
+const yesBtn=document.getElementById("yes");
+const noBtn=document.getElementById("no");
+const container=document.getElementById("container");
+const music=document.getElementById("music");
 
-noBtn.addEventListener("mouseenter", () => {
-  const maxX = container.offsetWidth - noBtn.offsetWidth;
-  const maxY = container.offsetHeight - noBtn.offsetHeight;
+let attempts=0;
 
-  noBtn.style.left = Math.random() * maxX + "px";
-  noBtn.style.top = Math.random() * maxY + "px";
+const messages=[
+"🌸 Ntii ahsan whdaa fhyati💘",
+"❤️ Kanmoooot 3liiik❤️",
+"💋 ahlaaa ayaam hyatii hya wanaa m3aak💖",
+"🤗 mkntkhych rasii bla biik wlw tanya 💞",
+"💞❤️ Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️"
+];
 
-  cat.classList.add("show");
+const emojis=["🌸","❤️","💋","🤗","💞"];
 
-  setTimeout(() => {
-    cat.classList.remove("show");
-  }, 2000);
+noBtn.addEventListener("click",()=>{
+
+  if(attempts<5){
+
+    container.innerHTML="<h2>"+messages[attempts]+"</h2>";
+
+    for(let i=0;i<20;i++){
+      const el=document.createElement("div");
+      el.className="float";
+      el.innerText=emojis[attempts];
+      el.style.left=Math.random()*window.innerWidth+"px";
+      el.style.top=window.innerHeight+"px";
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),3000);
+    }
+
+    attempts++;
+
+    setTimeout(()=>{
+      container.innerHTML='<h1>Do you love me? ❤️</h1><button id="yes">Yes 💖</button><button id="no">No 💔</button>';
+      location.reload();
+    },2500);
+
+  }
 });
 
-yesBtn.addEventListener("click", () => {
-  cat.classList.remove("show");
-  message.classList.add("show");
+// YES BUTTON
+yesBtn.addEventListener("click",()=>{
+
   music.play();
+  container.innerHTML="";
+
+  const heart=document.createElement("div");
+  heart.className="bigHeart";
+  heart.innerText="❤️";
+  container.appendChild(heart);
+
+  const couple=document.createElement("div");
+  couple.className="couple";
+  couple.innerText="👩‍❤️‍👨💋";
+  container.appendChild(couple);
+
+  const text=document.createElement("h2");
+  text.innerText="KANBGHIIIIIK 💞";
+  text.style.color="#ff0066";
+  container.appendChild(text);
+
+  const name=document.createElement("h1");
+  name.innerText="Fatiii❤️";
+  name.style.marginTop="20px";
+  name.style.fontSize="40px";
+  name.style.color="#ff1493";
+  name.style.animation="glow 1.5s infinite alternate";
+  container.appendChild(name);
+
+  setInterval(()=>{
+    const heartFloat=document.createElement("div");
+    heartFloat.className="float";
+    heartFloat.innerText="💖";
+    heartFloat.style.left=Math.random()*window.innerWidth+"px";
+    heartFloat.style.top=window.innerHeight+"px";
+    document.body.appendChild(heartFloat);
+    setTimeout(()=>heartFloat.remove(),3000);
+  },300);
+
 });
 </script>
 
 </body>
 </html>
-
