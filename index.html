@@ -1,73 +1,77 @@
-<script>
-const yesBtn = document.getElementById("yes");
-const noBtn = document.getElementById("no");
-const message = document.getElementById("message");
-const container = document.getElementById("container");
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise ❤️</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffe6e6;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        #container { padding: 20px; }
+        .buttons { margin-top: 20px; }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #yes { background-color: #ff4d4d; color: white; margin-right: 10px; }
+        #no { background-color: #ababab; color: white; }
+    </style>
+</head>
+<body>
 
-let noCount = 0;
+    <div id="container">
+        <h1 id="message">Will you be my Valentine? ❤️</h1>
+        <div class="buttons">
+            <button id="yes">Yes</button>
+            <button id="no">No</button>
+        </div>
+    </div>
 
-const messages = [
-  "🌸 Ntii ahsan whdaa fhyati💘",
-  "❤️ Kanmoooot 3liiik❤️",
-  "💋 Ahlaaa ayaam hyatii hya wanaa m3aak💖",
-  "🤗 Mkntkhych rasii bla biik wlw tanya 💞",
-  "💞❤️ Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️"
-];
+    <script>
+        const yesBtn = document.getElementById("yes");
+        const noBtn = document.getElementById("no");
+        const message = document.getElementById("message");
 
-noBtn.addEventListener("click", () => {
+        let noCount = 0;
+        const messages = [
+            "🌸 Ntii ahsan whdaa fhyati ❤️",
+            "❤️ Kanmoooot 3liiik ❤️",
+            "💋 Ahlaaa ayaam hyatii hya wanaa m3aak ❤️",
+            "😇 Mkntkhych rasii bla biik wlw tanya ❤️",
+            "❤️ Kanbghiiiiiiiiiiiiiiik bzzzzzzzf ❤️"
+        ];
 
-  if(noCount < messages.length){
+        noBtn.addEventListener("click", () => {
+            if (noCount < messages.length) {
+                message.innerText = messages[noCount];
+                noCount++;
+                // Make the Yes button bigger each time!
+                let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+                yesBtn.style.fontSize = (currentSize + 10) + "px";
+            }
+        });
 
-    // Show message
-    message.innerHTML = `<h2 style="color:#ff0066;">${messages[noCount]}</h2>`;
-    message.style.opacity = "1";
+        yesBtn.addEventListener("click", () => {
+            message.innerText = "YAY! I love you! ❤️🥰";
+            document.querySelector(".buttons").style.display = "none";
+        });
+    </script>
+</body>
+</html>
 
-    // Hide after 2 seconds
-    setTimeout(() => {
-      message.style.opacity = "0";
-    }, 2000);
-
-    noCount++;
-  }
-
-  // Move NO button randomly 😏
-  moveButton();
-
-  if(noCount === messages.length){
-    setTimeout(() => {
-      message.innerHTML = `
-      <h2 style="color:#ff0066;">
-      kanbghiik kola nhar kola tanya mchi ghir nhar (valentine)
-      nti hya l3alam dylii wnti libaghi n3ich m3ak hyati
-      lah ykhliiiiik liyaa💘🔥
-      </h2>
-      `;
-      message.style.opacity = "1";
-    },2500);
-  }
-
-});
-
-yesBtn.addEventListener("click", showYesAnimation);
-
-function moveButton(){
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 100);
-
-  noBtn.style.position = "absolute";
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-}
-
-function showYesAnimation(){
-  container.innerHTML = `
-    <div style="font-size:120px; animation:beat 1s infinite;">❤️</div>
-    <div style="font-size:80px;">👩‍❤️‍👨💋</div>
-    <h2>KANBGHIIIIIK 💞</h2>
-    <div class="glow">Fatiii❤️</div>
-  `;
-}
-</script>
 
 
 
