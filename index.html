@@ -1,73 +1,149 @@
-<script>
-const yesBtn = document.getElementById("yes");
-const noBtn = document.getElementById("no");
-const message = document.getElementById("message");
-const container = document.getElementById("container");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffe6e6;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+        #container {
+            padding: 20px;
+            max-width: 90%;
+        }
+        #message {
+            transition: opacity 0.5s ease;
+            min-height: 100px;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, font-size 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        #yes { background-color: #ff0066; color: white; }
+        #no { background-color: #888; color: white; position: relative; }
+        
+        @keyframes beat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .glow {
+            font-size: 40px;
+            color: #ff0066;
+            text-shadow: 0 0 10px #fff, 0 0 20px #ff0066;
+        }
+    </style>
+</head>
+<body>
 
-let noCount = 0;
+    <div id="container">
+        <h1 id="question">hbiba dyli will you be my valentine? ❤️</h1>
+        
+        <div id="message"></div>
+        
+        <div class="buttons">
+            <button id="yes">Yes</button>
+            <button id="no">No</button>
+        </div>
+    </div>
 
-const messages = [
-  "🌸 Ntii ahsan whdaa fhyati💘",
-  "❤️ Kanmoooot 3liiik❤️",
-  "💋 Ahlaaa ayaam hyatii hya wanaa m3aak💖",
-  "🤗 Mkntkhych rasii bla biik wlw tanya 💞",
-  "💞❤️ Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️"
-];
+    <script>
+        const yesBtn = document.getElementById("yes");
+        const noBtn = document.getElementById("no");
+        const messageDiv = document.getElementById("message");
+        const questionText = document.getElementById("question");
+        const container = document.getElementById("container");
 
-noBtn.addEventListener("click", () => {
+        let noCount = 0;
 
-  if(noCount < messages.length){
+        const messages = [
+            "🌸 Ntii ahsan whdaa fhyati💘",
+            "❤️ Kanmoooot 3liiik❤️",
+            "💋 Ahlaaa ayaam hyatii hya wanaa m3aak💖",
+            "🤗 Mkntkhych rasii bla biik wlw tanya 💞",
+            "💞❤️ Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️"
+        ];
 
-    // Show message
-    message.innerHTML = `<h2 style="color:#ff0066;">${messages[noCount]}</h2>`;
-    message.style.opacity = "1";
+        noBtn.addEventListener("click", () => {
+            // Hide the main question text
+            questionText.style.display = "none";
 
-    // Hide after 2 seconds
-    setTimeout(() => {
-      message.style.opacity = "0";
-    }, 2000);
+            if(noCount < messages.length){
+                // Show current message
+                messageDiv.innerHTML = `<h2 style="color:#ff0066;">${messages[noCount]}</h2>`;
+                messageDiv.style.opacity = "1";
 
-    noCount++;
-  }
+                // Hide message after 2 seconds
+                setTimeout(() => {
+                    messageDiv.style.opacity = "0";
+                }, 2000);
 
-  // Move NO button randomly 😏
-  moveButton();
+                noCount++;
+                
+                // Make the YES button bigger so she has to click it eventually
+                let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+                yesBtn.style.fontSize = (currentSize + 5) + "px";
+            }
 
-  if(noCount === messages.length){
-    setTimeout(() => {
-      message.innerHTML = `
-      <h2 style="color:#ff0066;">
-      kanbghiik kola nhar kola tanya mchi ghir nhar (valentine)
-      nti hya l3alam dylii wnti libaghi n3ich m3ak hyati
-      lah ykhliiiiik liyaa💘🔥
-      </h2>
-      `;
-      message.style.opacity = "1";
-    },2500);
-  }
+            // Move the NO button randomly
+            moveButton();
 
-});
+            // After the final message in the list
+            if(noCount === messages.length){
+                setTimeout(() => {
+                    messageDiv.innerHTML = `
+                    <h2 style="color:#ff0066; line-height: 1.5;">
+                    kanbghiik kola nhar kola tanya mchi ghir nhar (valentine) <br>
+                    nti hya l3alam dylii wnti libaghi n3ich m3ak hyati <br>
+                    lah ykhliiiiik liyaa💘🔥
+                    </h2>
+                    `;
+                    messageDiv.style.opacity = "1";
+                }, 2500);
+            }
+        });
 
-yesBtn.addEventListener("click", showYesAnimation);
+        yesBtn.addEventListener("click", () => {
+            container.innerHTML = `
+                <div style="font-size:100px; animation:beat 1s infinite;">❤️</div>
+                <div style="font-size:60px;">👩‍❤️‍👨💋</div>
+                <h2 style="color:#ff0066;">YEEES! KANBGHIIIIIK 💞</h2>
+                <div class="glow">Fatiii❤️</div>
+            `;
+        });
 
-function moveButton(){
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 100);
+        function moveButton(){
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 150);
+            noBtn.style.position = "absolute";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        }
+    </script>
+</body>
+</html>
 
-  noBtn.style.position = "absolute";
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-}
-
-function showYesAnimation(){
-  container.innerHTML = `
-    <div style="font-size:120px; animation:beat 1s infinite;">❤️</div>
-    <div style="font-size:80px;">👩‍❤️‍👨💋</div>
-    <h2>KANBGHIIIIIK 💞</h2>
-    <div class="glow">Fatiii❤️</div>
-  `;
-}
-</script>
 
 
 
