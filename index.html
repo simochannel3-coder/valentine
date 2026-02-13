@@ -15,14 +15,19 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             text-align: center;
+            position: relative;
         }
         #container {
             padding: 20px;
             max-width: 90%;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
         }
         #message {
             transition: opacity 0.5s ease;
-            min-height: 100px;
+            min-height: 120px;
             margin-bottom: 20px;
         }
         .buttons {
@@ -37,33 +42,38 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.2s;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         #yes { background-color: #ff0066; color: white; }
         #no { background-color: #888; color: white; position: relative; }
         
-        /* Photo Styling */
-        .fatii-photo {
-            width: 250px;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 20px;
-            border: 8px solid white;
-            box-shadow: 0 10px 30px rgba(255, 0, 102, 0.3);
-            margin-bottom: 20px;
-            animation: beat 1.5s infinite;
+        /* Floating Animation */
+        .floating-item {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            animation: float Up 6s linear infinite;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
 
         @keyframes beat {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
+
         .glow {
-            font-size: 40px;
+            font-size: 45px;
             color: #ff0066;
             text-shadow: 0 0 10px #fff, 0 0 20px #ff0066;
+            animation: beat 1s infinite;
         }
     </style>
 </head>
@@ -94,31 +104,61 @@
             "💞❤️ Kanbghiiiiiiiiiiiiiiiik bzzzzzzzf❤️"
         ];
 
+        // Create floating hearts and kisses
+        function createFloatingItem() {
+            const items = ['❤️', '💖', '💋', '💕', '🌸', '✨'];
+            const item = document.createElement('div');
+            item.className = 'floating-item';
+            item.innerText = items[Math.floor(Math.random() * items.length)];
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            document.body.appendChild(item);
+            setTimeout(() => item.remove(), 6000);
+        }
+        setInterval(createFloatingItem, 300);
+
         noBtn.addEventListener("click", () => {
             questionText.style.display = "none";
+            
             if(noCount < messages.length){
                 messageDiv.innerHTML = `<h2 style="color:#ff0066;">${messages[noCount]}</h2>`;
                 messageDiv.style.opacity = "1";
-                setTimeout(() => { messageDiv.style.opacity = "0"; }, 2000);
+
+                // MESSAGE STAYS FOR 15 SECONDS AS REQUESTED
+                setTimeout(() => { 
+                    if(noCount < messages.length) messageDiv.style.opacity = "0"; 
+                }, 15000);
+                
                 noCount++;
             }
+
             moveButton();
+
             if(noCount === messages.length){
                 setTimeout(() => {
-                    messageDiv.innerHTML = `<h2 style="color:#ff0066;">kanbghiik kola nhar kola tanya mchi ghir nhar (valentine) <br> nti hya l3alam dylii wnti libaghi n3ich m3ak hyati <br> lah ykhliiiiik liyaa💘🔥</h2>`;
+                    messageDiv.innerHTML = `
+                    <h2 style="color:#ff0066; line-height: 1.4;">
+                    kanbghiik kola nhar kola tanya mchi ghir nhar (valentine) <br>
+                    nti hya l3alam dylii wnti libaghi n3ich m3ak hyati <br>
+                    lah ykhliiiiik liyaa💘🔥
+                    </h2>`;
                     messageDiv.style.opacity = "1";
-                }, 2500);
+                }, 2000);
             }
         });
 
-        // THIS IS THE PART THAT SHOWS THE PHOTO AND MESSAGE TOGETHER
         yesBtn.addEventListener("click", () => {
             container.innerHTML = `
-                <img src="fatii.jpg" alt="Fatii" class="fatii-photo">
-                <h2 style="color:#ff0066; margin-top: 10px;">YEEES! KANBGHIIIIIK 💞</h2>
+                <div style="font-size:100px; animation:beat 1s infinite;">❤️</div>
+                <div style="font-size:60px; margin: 15px 0;">👩‍❤️‍👨💋👩‍❤️‍👨</div>
+                <h2 style="color:#ff0066;">YEEES! KANBGHIIIIIK 💞</h2>
                 <div class="glow">Fatiii❤️</div>
-                <div style="font-size:50px; margin-top: 15px;">❤️👩‍❤️‍👨💋❤️</div>
+                <p style="color:#ff0066; font-size: 1.2rem; margin-top: 20px;">
+                    You've made me the happiest person!
+                </p>
             `;
+            // Extra burst of hearts when she says yes
+            for(let i=0; i<20; i++) setTimeout(createFloatingItem, i*50);
         });
 
         function moveButton(){
@@ -131,6 +171,7 @@
     </script>
 </body>
 </html>
+
 
 
 
